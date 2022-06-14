@@ -11,7 +11,8 @@
             <h3>Categories:</h3>
             <ul class="list-group">
                 @foreach($content['categories'] as $category)
-                    <li class="list-group-item">{{$category->title}}</li>
+                    <li class="list-group-item"><a
+                            href="{{route('categories.show',[$category->id])}}">{{$category->title}}</a></li>
                 @endforeach
             </ul>
             <br>
@@ -42,10 +43,11 @@
                     <tbody>
                     @foreach($content['products'] as $product)
                         <tr>
-                            <td>{{$product->title}}</td>
+                            <td class="text-nowrap"><a
+                                    href="{{route('products.show',[$product->id])}}">{{$product->title}}</a></td>
                             <td>{{$product->description}}</td>
                             <td class="text-nowrap">{{$product->price}} USD</td>
-                            <td>{{$product->category_title}}</td>
+                            <td class="text-nowrap">{{$product->category_title}}</td>
                         </tr>
                     @endforeach
                     </tbody>
