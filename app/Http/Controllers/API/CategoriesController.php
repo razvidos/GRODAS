@@ -50,10 +50,11 @@ class CategoriesController extends Controller
     public function show($id)
     {
         $category = Categories::find($id);
+        $products = $category->products;  // defined to add response
         if ($category) {
             return new JsonResponse([
                 'success' => true,
-                'category' => $category
+                'category' => $category,
             ]);
         }
         return new JsonResponse(['success' => false], 404);

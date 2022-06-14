@@ -51,9 +51,10 @@ class ProductsController extends Controller
     {
         $product = Products::find($id);
         if ($product) {
+            $category = $product->category;  // defined to add response
             return new JsonResponse([
                 'success' => true,
-                'product' => $product
+                'product' => $product,
             ]);
         }
         return new JsonResponse(['success' => false], 404);
