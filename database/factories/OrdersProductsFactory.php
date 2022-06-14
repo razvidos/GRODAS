@@ -6,7 +6,7 @@ use App\Models\Orders;
 use App\Models\Products;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class ProductsOrderFactory extends Factory
+class OrdersProductsFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -16,8 +16,8 @@ class ProductsOrderFactory extends Factory
     public function definition()
     {
         return [
-            'products_id' => Products::all()->random()->id,
-            'orders_id' => Orders::all()->random()->id,
+            'product_id' => Products::all()->random()->id,
+            'order_id' => Orders::all()->random()->id,
         ];
     }
 }
