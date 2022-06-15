@@ -71,16 +71,18 @@ class OrdersController extends Controller
     /**
      * Display the specified resource.
      *
-     * @return Response|View
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|Response|\Illuminate\Routing\Redirector|View
      */
     public function show()
     {
-        $order = Auth::user()->order;
-        if (!$order) {
-            return response('Not Found', 404);
+        if ($user = Auth::user()) {
+            if (!$order = $user->order) {
+                return response('Not Found', 404);
+            }
+            return view('orders.show', compact('order'));
         }
+        return redirect('/');
 
-        return view('orders.show', compact('order'));
     }
 
     /**

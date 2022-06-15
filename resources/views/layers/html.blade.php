@@ -25,7 +25,7 @@
             <ul class="col-auto nav nav-pills">
                 <li class="nav-item"><a href="/" class="nav-link active" aria-current="page">Home</a></li>
             </ul>
-            @if($order = Auth::user()->order)
+            @if(Auth::user() && $order = Auth::user()->order)
                 <ul class="nav col-auto">
                     <li class="nav-item"><a href="{{route('orders.show', [$order->id])}}"
                                             class="nav-link active" aria-current="page">

@@ -49,7 +49,7 @@
 
                             {{--Buy Buttons--}}
                             {{--                            <button class="btn btn-primary btn-rounded">Buy Now</button>--}}
-                            @if(!in_array($product->id, $order->products->pluck('id')->toArray()))
+                            @if($order && !in_array($product->id, $order->products->pluck('id')->toArray()))
                                 <button class="btn btn-dark btn-rounded mr-1 btn-add-to-cart" data-toggle="tooltip"
                                         title=""
                                         data-original-title="Add to cart" value="{{$product->id}}">

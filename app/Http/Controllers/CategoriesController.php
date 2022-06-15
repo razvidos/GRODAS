@@ -51,11 +51,15 @@ class CategoriesController extends Controller
      */
     public function show(Categories $category): View
     {
+        $order = null;
         $products_paginator =
             DB::table('products')
                 ->where('categories_id', $category->id)
                 ->simplePaginate(15);
-        $order = Auth::user()->order;
+
+        if($user = Auth::user()) {
+            $order = $user->order;
+        }
         return view('categories.show', compact(
             'category',
             'products_paginator',
