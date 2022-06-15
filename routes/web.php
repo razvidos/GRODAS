@@ -18,9 +18,19 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index']);
 
+//Route::get('/welcome', function () {
+//    return view('welcome');
+//});
+
 Route::resources([
-////    'users' => UserController::class,
+//    'users' => UserController::class,
     'categories' => CategoriesController::class,
     'products' => ProductsController::class,
 //    'orders' => OrdersController::class,
 ]);
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
+
+require __DIR__.'/auth.php';
