@@ -50,9 +50,12 @@ class ProductsController extends Controller
      */
     public function show(Products $product)
     {
-        $product_in_order = Auth::user()->order->products->find($product->id);
-        if ($product_in_order) {
-            $product->inOrder();
+        $order = Auth::user()->order;
+        if ($order) {
+            $product_in_order = $order->products->find($product->id);
+            if ($product_in_order) {
+                $product->inOrder();
+            }
         }
         return view('products.show', compact('product'));
     }

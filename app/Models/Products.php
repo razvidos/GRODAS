@@ -18,16 +18,15 @@ class Products extends Model
     /**
      * @var bool|mixed
      */
-    protected $is_in_order;
+    protected $is_in_order = false;
 
     public function category()
     {
-//        return $this->hasOne(Categories::class, 'categories_id');
         return $this->belongsTo(Categories::class, 'categories_id');
     }
 
     /**
-     * @return bool|mixed
+     * @return bool
      */
     public function isInOrder()
     {

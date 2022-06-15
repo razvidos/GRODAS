@@ -25,15 +25,17 @@
             <ul class="col-auto nav nav-pills">
                 <li class="nav-item"><a href="/" class="nav-link active" aria-current="page">Home</a></li>
             </ul>
-            <ul class="nav col-auto">
-                <li class="nav-item"><a href="{{route('orders.show', [Auth::user()->order->id])}}"
-                                        class="nav-link active" aria-current="page">
-                        Cart <span id="products-in-order">{{Auth::user()->order->products->count()}}</span>
-                    </a></li>
+            @if($order = Auth::user()->order)
+                <ul class="nav col-auto">
+                    <li class="nav-item"><a href="{{route('orders.show', [$order->id])}}"
+                                            class="nav-link active" aria-current="page">
+                            Cart <span id="products-in-order">{{Auth::user()->order->products->count()}}</span>
+                        </a></li>
+                </ul>
+            @endif
                 {{--            <li class="nav-item"><a href="{{route('users.index')}}" class="nav-link active" aria-current="page">--}}
                 {{--                    Users--}}
                 {{--                </a></li>--}}
-            </ul>
         </div>
         <div class="row antialiased">
             @if (Route::has('login'))

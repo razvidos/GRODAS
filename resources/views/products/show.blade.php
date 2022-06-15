@@ -4,7 +4,6 @@
 @section('title', 'Product')
 
 @section('main-content')
-    {{!$product->isInOrder()}}
     <div class="card">
         <div class="card-body">
             {{--Title--}}
