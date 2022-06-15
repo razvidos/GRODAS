@@ -59,7 +59,7 @@ class OrdersController extends Controller
         self::createLinkWitProducts($order->id, $product_ids);
         return new JsonResponse([
             'success' => true,
-            'product-id' => $order->id,
+            'order_id' => $order->id,
         ], 201);
     }
 
@@ -100,14 +100,18 @@ class OrdersController extends Controller
             ], 400);
         }
 
+        $order = Orders::find($id);
         if (isset($validated['user_id'])) {
-            $order = Orders::find($id);
             $order->update($validated);
         }
 
         if (isset($validated['product_ids'])) {
             $result = OrdersProducts::where('order_id', $id)->delete();
             self::createLinkWitProducts($id, $validated['product_ids']);
+        }
+
+        if (isset($validated['product_id'])) {
+            self::createLinkWitProducts($id, [$validated['product_id']]);
         }
 
         $order_show = json_decode($this->show($id)->getContent());
@@ -120,6 +124,7 @@ class OrdersController extends Controller
         return new JsonResponse([
             'success' => true,
             'order' => $order_show->order,
+            'products_count' => $order->products->count(),
         ]);
     }
 

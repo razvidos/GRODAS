@@ -25,4 +25,4 @@ Route::apiResources([
     'products' => ProductsController::class,
     'categories' => CategoriesController::class,
     'orders' => OrdersController::class,
-]);
+], ["as" => "api"]);

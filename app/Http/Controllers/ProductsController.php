@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreProductsRequest;
 use App\Http\Requests\UpdateProductsRequest;
 use App\Models\Products;
+use Auth;
 use Illuminate\Http\Response;
 use Illuminate\View\View;
 
@@ -49,6 +50,10 @@ class ProductsController extends Controller
      */
     public function show(Products $product)
     {
+        $product_in_order = Auth::user()->order->products->find($product->id);
+        if ($product_in_order) {
+            $product->inOrder();
+        }
         return view('products.show', compact('product'));
     }
 

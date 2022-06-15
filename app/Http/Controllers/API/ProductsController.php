@@ -47,17 +47,12 @@ class ProductsController extends Controller
      * @param int $id
      * @return JsonResponse
      */
-    public function show(int $id): JsonResponse
+    public function show(Products $product): JsonResponse
     {
-        $product = Products::find($id);
-        if ($product) {
-            $category = $product->category;  // defined to add response
-            return new JsonResponse([
-                'success' => true,
-                'product' => $product,
-            ]);
-        }
-        return new JsonResponse(['success' => false], 404);
+        return new JsonResponse([
+            'success' => true,
+            'product' => $product,
+        ]);
     }
 
     /**

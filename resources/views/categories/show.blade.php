@@ -6,18 +6,16 @@
 @section('main-content')
 
 
-    <div class="container">
         <div class="row">
             {{--Title--}}
             <div class="col">
                 <h2>{{$category->title}}</h2>
             </div>
             {{--Paginate Links--}}
-            <div class="col-auto justify-content-end">
+            <div class="col-auto justify-content-end mt-2">
                 {{$products_paginator->links()}}
             </div>
         </div>
-    </div>
 
     <div class="container d-flex justify-content-center mt-50 mb-50">
         <div class="row">
@@ -50,11 +48,15 @@
                             <h3 class="mb-0 font-weight-semibold">${{$product->price}}</h3>
 
                             {{--Buy Buttons--}}
-                            <button class="btn btn-primary btn-rounded">Buy Now</button>
-                            <button class="btn btn-dark btn-rounded mr-1" data-toggle="tooltip" title=""
-                                    data-original-title="Add to cart">
-                                <i class="fa fa-shopping-cart"></i>
-                            </button>
+                            {{--                            <button class="btn btn-primary btn-rounded">Buy Now</button>--}}
+                            @if(!in_array($product->id, $order->products->pluck('id')->toArray()))
+                                <button class="btn btn-dark btn-rounded mr-1 btn-add-to-cart" data-toggle="tooltip"
+                                        title=""
+                                        data-original-title="Add to cart" value="{{$product->id}}">
+                                    {{--                                <i class="fa fa-cart-shopping"></i>--}}
+                                    <i class="fa-solid fa-cart-shopping"></i>
+                                </button>
+                            @endif
                             {{--End Buy Buttons--}}
 
                         </div>
@@ -64,10 +66,51 @@
             @endforeach
             {{--End Paginate items--}}
         </div>
-    </div>
+        {{--{{$order->products->pluck('id')}}--}}
+        @endsection
 
-@endsection
 
-@push('links')
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-@endpush
+        @push('end_scripts')
+            <script>
+                $(document).ready(function () {
+                    $('.btn-add-to-cart').click(function (e) {
+                        e.preventDefault();
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                            }
+                        });
+
+                        // $('.alert').hide();
+                        // $('.alert-error').hide();
+
+                        const btn = $(this);
+
+                        $.ajax({
+                            method: 'POST',
+                            url: "{{ url('orders') }}",
+                            dataType: 'json',
+                            data: {
+                                // user_id: jQuery('#first_name').val(),
+                                product_id: btn.val(),
+                                "_token": "{{ csrf_token() }}",
+                            },
+                            success: function (result) {
+                                btn.hide();
+                                $('#products-in-order').html(result.products_count);
+                            },
+                            error: function (result) {
+                                // const alert_block = jQuery('.alert-error');
+                                // alert_block.empty();
+                                // alert_block.show();
+                                // alert_block.html("<ul>");
+                                // $.each(result.responseJSON.errors, function (key, value) {
+                                //     alert_block.append('<li>' + value + '</li');
+                                // });
+                                // alert_block.append("</ul>");
+                            },
+                        });
+                    });
+                });
+            </script>
+        @endpush

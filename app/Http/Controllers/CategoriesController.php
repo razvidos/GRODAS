@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCategoriesRequest;
 use App\Http\Requests\UpdateCategoriesRequest;
 use App\Models\Categories;
+use Auth;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
@@ -54,7 +55,11 @@ class CategoriesController extends Controller
             DB::table('products')
                 ->where('categories_id', $category->id)
                 ->simplePaginate(15);
-        return view('categories.show', compact('category', 'products_paginator'));
+        $order = Auth::user()->order;
+        return view('categories.show', compact(
+            'category',
+            'products_paginator',
+            'order'));
     }
 
     /**
